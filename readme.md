@@ -1,4 +1,4 @@
-**A simple funnel-type modfel for estimating potential enrollment in the Arizona State University Future of Innovation in Society BA based on various factors.**
+# **A simple funnel-type modfel for estimating potential enrollment in the Arizona State University Future of Innovation in Society BA based on various factors.**
 
 Included files:
 
