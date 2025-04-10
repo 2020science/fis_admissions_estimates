@@ -13,4 +13,4 @@ Included files:
 * script.js
 * style.css
 
-Website can be viewed at [http://fvture.net/fisfuturestudents](http://fvture.net/fisfuturestudents)
+Website can be viewed at [https://fvture.net/fisfuturestudents](https://fvture.net/fisfuturestudents)
