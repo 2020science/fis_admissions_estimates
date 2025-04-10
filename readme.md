@@ -6,3 +6,11 @@ Included files:
 * **Key Parameters for High School Applications to ASU.docx**: Description of key parameters and sources/reasoning for ranges and default values 
 * **Recalibrating ASU’s Freshman Enrollment Funnel Model.docx**: Calibrating factors and the model to match current first year enrollment figures 
 * **ASU enrollment across majors.docx**: Analysis of the distribution of ASU students across majors
+
+Included files:
+
+* index.html
+* script.js
+* style.css
+
+Website can be viewed at [http://fvture.net/fisfuturestudents](http://fvture.net/fisfuturestudents)
