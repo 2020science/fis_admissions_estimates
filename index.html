@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ASU Future of Innovation Enrollment Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>ASU Future of Innovation Enrollment Dashboard</h1>
+    <p>Explore enrollment outcomes for the BA in Future of Innovation in Society by adjusting key parameters.</p>
+  </header>
+
+  <!-- Report Box at the top: Displays overall enrollment and a breakdown -->
+  <div class="results-panel" id="reportPanel">
+    <h2>Enrollment Report</h2>
+    <div id="enrollmentSummary">
+      <p class="results" id="enrollmentResult">Loading...</p>
+    </div>
+    <div id="reportBreakdown">
+      <!-- Breakdown content will be inserted here by script.js -->
+    </div>
+  </div>
+
+  <!-- Container for Sections 1-3 (Basic Information) -->
+  <div class="basic-container">
+    <!-- 1. Demographics & Growth -->
+    <section class="slider-section">
+      <h2>1. Demographics &amp; Growth</h2>
+      <div class="slider-control">
+        <label for="X_instate">
+          Number of AZ HS Grads (X_instate): <span id="X_instateValue"></span>
+        </label>
+        <input type="range" id="X_instate" min="60000" max="85000" step="1000" value="70000" 
+          oninput="updateValue('X_instate', 'X_instateValue'), updateModel()">
+        <div class="value-display">Estimated annual AZ high school graduates.</div>
+      </div>
+      <div class="slider-control">
+        <label for="X_OOS">
+          Number of Non-AZ HS Grads (X_OOS): <span id="X_OOSValue"></span>
+        </label>
+        <input type="range" id="X_OOS" min="3700000" max="3900000" step="50000" value="3700000"
+          oninput="updateValue('X_OOS', 'X_OOSValue'), updateModel()">
+        <div class="value-display">Estimated US graduates from outside Arizona.</div>
+      </div>
+      <div class="slider-control">
+        <label for="g_growth">
+          Growth Rate (g_growth): <span id="g_growthValue"></span>
+        </label>
+        <input type="range" id="g_growth" min="-0.01" max="0.01" step="0.001" value="0.0"
+          oninput="updateValue('g_growth', 'g_growthValue'), updateModel()">
+        <div class="value-display">Fractional change in AZ graduates (–1% to +1%).</div>
+      </div>
+    </section>
+
+    <!-- 2. Application Behavior -->
+    <section class="slider-section">
+      <h2>2. Application Behavior</h2>
+      <div class="slider-control">
+        <label for="alpha">
+          AZ 4-Year Application Rate (α): <span id="alphaValue"></span>
+        </label>
+        <input type="range" id="alpha" min="0.25" max="0.35" step="0.005" value="0.32"
+          oninput="updateValue('alpha', 'alphaValue'), updateModel()">
+        <div class="value-display">Fraction of AZ grads applying to 4-year colleges.</div>
+      </div>
+      <div class="slider-control">
+        <label for="beta_in">
+          In-State Retention (β_in): <span id="beta_inValue"></span>
+        </label>
+        <input type="range" id="beta_in" min="0.70" max="0.85" step="0.005" value="0.80"
+          oninput="updateValue('beta_in', 'beta_inValue'), updateModel()">
+        <div class="value-display">Percentage of AZ college-bound students remaining in-state.</div>
+      </div>
+      <div class="slider-control">
+        <label for="beta_OOS">
+          Non-AZ Applicants to AZ (β_OOS): <span id="beta_OOSValue"></span>
+        </label>
+        <input type="range" id="beta_OOS" min="0.01" max="0.02" step="0.001" value="0.015"
+          oninput="updateValue('beta_OOS', 'beta_OOSValue'), updateModel()">
+        <div class="value-display">Fraction of non-AZ students applying to AZ universities.</div>
+      </div>
+    </section>
+
+    <!-- 3. University Choice -->
+    <section class="slider-section">
+      <h2>3. University Choice</h2>
+      <div class="slider-control">
+        <label for="gamma">
+          Choosing Major AZ Unis (γ): <span id="gammaValue"></span>
+        </label>
+        <input type="range" id="gamma" min="0.70" max="0.80" step="0.005" value="0.75"
+          oninput="updateValue('gamma', 'gammaValue'), updateModel()">
+        <div class="value-display">Fraction of AZ students choosing a major AZ public university.</div>
+      </div>
+      <div class="slider-control">
+        <label for="gamma_OOS">
+          Non-AZ Choosing ASU (γ_OOS): <span id="gamma_OOSValue"></span>
+        </label>
+        <input type="range" id="gamma_OOS" min="0.60" max="0.75" step="0.005" value="0.65"
+          oninput="updateValue('gamma_OOS', 'gamma_OOSValue'), updateModel()">
+        <div class="value-display">Proportion of non-AZ applicants to AZ picking ASU.</div>
+      </div>
+      <div class="slider-control">
+        <label for="k_ASU">
+          Choosing ASU (κ_ASU): <span id="k_ASUValue"></span>
+        </label>
+        <input type="range" id="k_ASU" min="0.50" max="0.65" step="0.005" value="0.60"
+          oninput="updateValue('k_ASU', 'k_ASUValue'), updateModel()">
+        <div class="value-display">Fraction of in-state applicants selecting ASU.</div>
+      </div>
+    </section>
+  </div><!-- end basic-container -->
+
+  <!-- Container for Sections 4 & 5 (Advanced: Program-Level Attractors & Admissions & Yield) -->
+  <div class="advanced-container">
+    <!-- 4. Program-Level Attractors -->
+    <section class="slider-section">
+      <h2>4. Program-Level Attractors – Non-Mainstream Majors</h2>
+      <div class="slider-control">
+        <label for="delta_interest">
+          Interest in Innovation and Society (δ_interest): <span id="delta_interestValue"></span>
+        </label>
+        <input type="range" id="delta_interest" min="0.05" max="0.80" step="0.005" value="0.40"
+          oninput="updateValue('delta_interest', 'delta_interestValue'), updateModel()">
+        <div class="value-display">Fraction of students open to future-oriented majors.</div>
+      </div>
+      <div class="slider-control">
+        <label for="delta_awareness">
+          Program Awareness (δ_awareness): <span id="delta_awarenessValue"></span>
+        </label>
+        <input type="range" id="delta_awareness" min="0" max="0.95" step="0.005" value="0.1"
+          oninput="updateValue('delta_awareness', 'delta_awarenessValue'), updateModel()">
+        <div class="value-display">Level of awareness about this program.</div>
+      </div>
+      <div class="slider-control">
+        <label for="delta_ROI">
+          Perceived ROI (δ_ROI, scale 1-10): <span id="delta_ROIValue"></span>
+        </label>
+        <input type="range" id="delta_ROI" min="1" max="10" step="0.1" value="6"
+          oninput="updateValue('delta_ROI', 'delta_ROIValue'), updateModel()">
+        <div class="value-display">Perception of ROI compared to other niche majors.</div>
+      </div>
+      <div class="slider-control">
+        <label for="delta_mission">
+          Mission Alignment (δ_mission, scale 1-10): <span id="delta_missionValue"></span>
+        </label>
+        <input type="range" id="delta_mission" min="5" max="10" step="0.1" value="9"
+          oninput="updateValue('delta_mission', 'delta_missionValue'), updateModel()">
+        <div class="value-display">Alignment with foci like sustainability, responsible innovation, and future studies.</div>
+      </div>
+      <div class="slider-control">
+        <label for="delta_curriculum">
+          Curriculum Appeal (δ_curriculum, scale 1-10): <span id="delta_curriculumValue"></span>
+        </label>
+        <input type="range" id="delta_curriculum" min="3" max="10" step="0.1" value="7"
+          oninput="updateValue('delta_curriculum', 'delta_curriculumValue'), updateModel()">
+        <div class="value-display">Appeal of the interdisciplinary curriculum.</div>
+      </div>
+      
+      <div class="slider-control">
+        <label for="delta_market">
+          Market (δ_market): <span id="delta_marketValue"></span>
+        </label>
+        <input type="range" id="delta_market" min="0.0" max="0.05" step="0.002" value="0.02"
+          oninput="updateValue('delta_market', 'delta_marketValue'), updateModel()">
+        <div class="value-display">Max % of freshmen likely to consider a niche program (based on ASU enrollment across the university).</div>
+      </div>
+      
+      <div class="slider-control">
+        <label for="delta_secretsauce">
+          Secret Sauce (δ_secretsauce): <span id="delta_secretsauceValue"></span>
+        </label>
+        <input type="range" id="delta_secretsauce" min="0.0" max="0.1" step="0.002" value="0.01"
+          oninput="updateValue('delta_secretsauce', 'delta_secretsauceValue'), updateModel()">
+        <div class="value-display">Secret sauce factor – because FIS is special! (Take care with this factor as hubris can lead to bias)</div>
+      </div>
+      
+
+    </section>
+
+    <!-- 5. Admissions & Yield -->
+    <section class="slider-section section5">
+      <h2>5. Admissions & Yield</h2>
+      <div class="slider-control">
+        <label for="phi_adm">
+          ASU Admission Rate (φ_adm): <span id="phi_admValue"></span>
+        </label>
+        <input type="range" id="phi_adm" min="0.85" max="0.90" step="0.005" value="0.88"
+          oninput="updateValue('phi_adm', 'phi_admValue'), updateModel()">
+        <div class="value-display">Approximately 85–90% admitted.</div>
+      </div>
+      
+      <div class="slider-control">
+        <label for="phi_FA">
+          Financial Aid Coverage (φ_FA): <span id="phi_FAValue"></span>
+        </label>
+        <input type="range" id="phi_FA" min="0.80" max="0.90" step="0.005" value="0.85"
+          oninput="updateValue('phi_FA', 'phi_FAValue'), updateModel()">
+        <div class="value-display">Approx. 80–90% receive aid (currently not used in calculation).</div>
+      </div>
+
+      
+      <div class="slider-control">
+        <label for="theta">
+          Overall Yield (θ): <span id="thetaValue"></span>
+        </label>
+        <input type="range" id="theta" min="0.20" max="0.30" step="0.005" value="0.25"
+          oninput="updateValue('theta', 'thetaValue'), updateModel()">
+        <div class="value-display">20–30% of admitted students enroll.</div>
+      </div>
+      <div class="slider-control">
+        <label for="theta_program">
+          Niche Program Yield (θ_program): <span id="theta_programValue"></span>
+        </label>
+        <input type="range" id="theta_program" min="0.30" max="0.50" step="0.005" value="0.40"
+          oninput="updateValue('theta_program', 'theta_programValue'), updateModel()">
+        <div class="value-display">Typically 30–50% for the niche BA.</div>
+      </div>
+      <div class="slider-control">
+        <label for="y_visit">
+          Visit Impact (y_visit): <span id="y_visitValue"></span>
+        </label>
+        <input type="range" id="y_visit" min="1.0" max="2.0" step="0.1" value="1.2"
+          oninput="updateValue('y_visit', 'y_visitValue'), updateModel()">
+        <div class="value-display">Multiplier from campus visits.</div>
+      </div>
+      <div class="slider-control">
+        <label for="y_peer">
+          Peer/Family Influence (y_peer): <span id="y_peerValue"></span>
+        </label>
+        <input type="range" id="y_peer" min="1.0" max="4" step="0.1" value="2.5"
+          oninput="updateValue('y_peer', 'y_peerValue'), updateModel()">
+        <div class="value-display">Multiplier from parental/peer influence.</div>
+      </div>
+    </section>
+  </div><!-- end advanced-container -->
+
+  <script src="script.js"></script>
+</body>
+</html>
