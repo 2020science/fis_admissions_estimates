@@ -1,4 +1,4 @@
-/*********************************************
+/******************************************************************************************
  * ASU Future of Innovation Enrollment Model
  *
  * This script calculates the projected final enrollment
@@ -13,7 +13,8 @@
  * It also updates a report box at the top with both the
  * overall projected enrollment and a detailed breakdown
  * of key steps in the funnel.
- *********************************************/
+ * all associated files available at https://github.com/2020science/fis_admissions_estimates
+ ******************************************************************************************/
 
 /* -----------------------------------------
    Helper Function: updateValue
@@ -59,13 +60,13 @@ function updateModel() {
   const k_ASU = parseFloat(document.getElementById('k_ASU').value);             // Fraction of in-state major univ applicants selecting ASU
   
   // --- 4. Program-Level Attractors ---
-  const delta_interest = parseFloat(document.getElementById('delta_interest').value);   // Interest in social innovation
+  const delta_interest = parseFloat(document.getElementById('delta_interest').value);   // Interest in innovation and society
   const delta_awareness = parseFloat(document.getElementById('delta_awareness').value); // Awareness of the program
   const delta_ROI = parseFloat(document.getElementById('delta_ROI').value);             // Perceived ROI (scale 1-10)
-  const delta_mission = parseFloat(document.getElementById('delta_mission').value);     // Mission alignment (scale 1-10)
+  const delta_mission = parseFloat(document.getElementById('delta_mission').value);     //  Personal mission alignment (scale 1-10)
   const delta_curriculum = parseFloat(document.getElementById('delta_curriculum').value); // Curriculum appeal (scale 1-10)
   const delta_market = parseFloat(document.getElementById('delta_market').value);// Maximum program market for a niche program (at ASU combined niche programs only attract 1% - 2% of freshmen)  (0-5%)
-  const delta_secretsauce = parseFloat(document.getElementById('delta_secretsauce').value);// Wildcard factor to incorporate FIS' 'secret sauce' (0-2%)
+  const delta_secretsauce = parseFloat(document.getElementById('delta_secretsauce').value);// Wildcard factor to incorporate FIS' 'secret sauce' (ideally 0-2%)
 
   
   // Composite program factor: combine attractors with normalization.
@@ -73,39 +74,39 @@ function updateModel() {
     (delta_ROI / 10) * (delta_mission / 10) * (delta_curriculum / 10) * ((delta_secretsauce + 0.01) * 100);
   
   // --- 5. Admissions & Yield ---
-  const phi_adm = parseFloat(document.getElementById('phi_adm').value);       // ASU admission rate
-  const phi_FA = parseFloat(document.getElementById('phi_FA').value);         // Financial aid coverage -- not used in calculation
-  const theta = parseFloat(document.getElementById('theta').value);           // Overall yield rate at ASU
-  const theta_program = parseFloat(document.getElementById('theta_program').value);// Niche program yield rate
-  const y_visit = parseFloat(document.getElementById('y_visit').value);       // Multiplier from campus visits
-  const y_peer = parseFloat(document.getElementById('y_peer').value);         // Multiplier from peer/family influence
+  const phi_adm = parseFloat(document.getElementById('phi_adm').value);             // ASU admission rate
+  const phi_FA = parseFloat(document.getElementById('phi_FA').value);               // Financial aid coverage -- not used in calculation
+  const theta = parseFloat(document.getElementById('theta').value);                 // Overall yield rate at ASU
+  const theta_program = parseFloat(document.getElementById('theta_program').value); // Niche program yield rate (used instead of theta in niche calculations)
+  const y_visit = parseFloat(document.getElementById('y_visit').value);             // Multiplier from campus visits
+  const y_peer = parseFloat(document.getElementById('y_peer').value);               // Multiplier from peer/family influence
   
   // --- In-State Funnel ---
-  const step1_in = effectiveX_instate * alpha;     // AZ grads applying to 4-year colleges
+  const step1_in = effectiveX_instate * alpha;       // AZ grads applying to 4-year colleges
   const step2_in = step1_in * beta_in;               // In-state applicants remaining in AZ
   const step3_in = step2_in * gamma;                 // Applicants choosing a major AZ public university
   const step4_in = step3_in * k_ASU;                 // Those selecting ASU
   
   // --- Out-of-State Funnel ---
-  const step1_os = X_OOS * 0.45;                     // Non-AZ grads applying to 4-year colleges (assumed 45% rate)
+  const step1_os = X_OOS * 0.45;                     // Non-AZ grads applying to 4-year colleges (assumed 45% rate based on research)
   const step2_os = step1_os * beta_OOS;              // Out-of-state grads applying to AZ unis
   const step3_os = step2_os * gamma_OOS;             // Among these, choosing ASU
   
-  // --- Estimated ASU undergraduate enrollment (checks and balances) ---
+  // --- Estimated ASU undergraduate enrollment (checks and balances to make sure model is reasonable) ---
   const final_in_total = step4_in * phi_adm * theta * y_visit * y_peer;  // In-state  program admissions
   const final_os_total = step3_os * phi_adm * theta * y_visit * y_peer;  // Out of state  program admissions
-  const finalEnrollment_total = final_in_total + final_os_total;  // Final projected enrollment (all undergrad)
-  const finalnicheEnrollment_total = finalEnrollment_total * delta_market; //Estimated pool of students for all niche majors
+  const finalEnrollment_total = final_in_total + final_os_total;         // Final projected enrollment (all undergrad)
+  const finalnicheEnrollment_total = finalEnrollment_total * delta_market * theta_program * (1 / theta); // Estimated pool of students for all niche majors
 
   
   // --- Program Application Adjustment ---
-  const niche_in = step4_in * programFactor;  // In-state niche program applicants
-  const niche_os = step3_os * programFactor;  // Out-of-state niche program applicants
+  const niche_in = step4_in * programFactor * y_visit * y_peer;  // In-state niche program applicants
+  const niche_os = step3_os * programFactor * y_visit * y_peer;  // Out-of-state niche program applicants
   
   // --- Apply Admissions & Yield Multipliers ---
-  const final_in = niche_in * phi_adm * theta * theta_program * y_visit * y_peer;
-  const final_os = niche_os * phi_adm * theta * theta_program * y_visit * y_peer;
-  const finalEnrollment = final_in + final_os;  // Final projected enrollment
+  const final_in = niche_in * phi_adm * theta_program; // In-state admissions -- factored by admission rate and niche yield
+  const final_os = niche_os * phi_adm * theta_program; // Out of state admissions -- factored by admission rate and niche yield
+  const finalEnrollment = final_in + final_os;         // Final projected niche enrollment
   
   // Update the overall report.
   document.getElementById('enrollmentResult').textContent =

@@ -79,7 +79,7 @@ header p {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  justify-content: center;
+  justify-content: center; 
   margin-top: 2rem; /* Added gap between basic and advanced sections */
 }
 .advanced-container .slider-section {

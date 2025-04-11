@@ -1,3 +1,18 @@
+<!-- 
+*******************************************************************************************
+* Dashboard that allows the impact of various factors on first year enrollment in a niche *
+* 4 year undergraduate degree (specifically the ASU Future of Innovation in Society BA)   *
+* to be explored.																		  *
+*     																					  *
+* Inital background reseach and development conducting using ChatGPT					  *
+* (Deep Research, o1-pro and o3-mini-high)								  				  *
+* Refinement and testing by Andrew Maynard. April 2024								      *
+*     																					  *
+* all associated files available at:													  *
+* https://github.com/2020science/fis_admissions_estimates								  *
+*******************************************************************************************
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,9 +39,11 @@
 
   <!-- Container for Sections 1-3 (Basic Information) -->
   <div class="basic-container">
+
     <!-- 1. Demographics & Growth -->
     <section class="slider-section">
       <h2>1. Demographics &amp; Growth</h2>
+
       <div class="slider-control">
         <label for="X_instate">
           Number of AZ HS Grads (X_instate): <span id="X_instateValue"></span>
@@ -35,6 +52,7 @@
           oninput="updateValue('X_instate', 'X_instateValue'), updateModel()">
         <div class="value-display">Estimated annual AZ high school graduates.</div>
       </div>
+
       <div class="slider-control">
         <label for="X_OOS">
           Number of Non-AZ HS Grads (X_OOS): <span id="X_OOSValue"></span>
@@ -43,6 +61,7 @@
           oninput="updateValue('X_OOS', 'X_OOSValue'), updateModel()">
         <div class="value-display">Estimated US graduates from outside Arizona.</div>
       </div>
+
       <div class="slider-control">
         <label for="g_growth">
           Growth Rate (g_growth): <span id="g_growthValue"></span>
@@ -56,6 +75,7 @@
     <!-- 2. Application Behavior -->
     <section class="slider-section">
       <h2>2. Application Behavior</h2>
+
       <div class="slider-control">
         <label for="alpha">
           AZ 4-Year Application Rate (α): <span id="alphaValue"></span>
@@ -64,6 +84,7 @@
           oninput="updateValue('alpha', 'alphaValue'), updateModel()">
         <div class="value-display">Fraction of AZ grads applying to 4-year colleges.</div>
       </div>
+
       <div class="slider-control">
         <label for="beta_in">
           In-State Retention (β_in): <span id="beta_inValue"></span>
@@ -72,6 +93,7 @@
           oninput="updateValue('beta_in', 'beta_inValue'), updateModel()">
         <div class="value-display">Percentage of AZ college-bound students remaining in-state.</div>
       </div>
+
       <div class="slider-control">
         <label for="beta_OOS">
           Non-AZ Applicants to AZ (β_OOS): <span id="beta_OOSValue"></span>
@@ -85,6 +107,7 @@
     <!-- 3. University Choice -->
     <section class="slider-section">
       <h2>3. University Choice</h2>
+
       <div class="slider-control">
         <label for="gamma">
           Choosing Major AZ Unis (γ): <span id="gammaValue"></span>
@@ -93,6 +116,7 @@
           oninput="updateValue('gamma', 'gammaValue'), updateModel()">
         <div class="value-display">Fraction of AZ students choosing a major AZ public university.</div>
       </div>
+
       <div class="slider-control">
         <label for="gamma_OOS">
           Non-AZ Choosing ASU (γ_OOS): <span id="gamma_OOSValue"></span>
@@ -101,6 +125,7 @@
           oninput="updateValue('gamma_OOS', 'gamma_OOSValue'), updateModel()">
         <div class="value-display">Proportion of non-AZ applicants to AZ picking ASU.</div>
       </div>
+
       <div class="slider-control">
         <label for="k_ASU">
           Choosing ASU (κ_ASU): <span id="k_ASUValue"></span>
@@ -109,11 +134,14 @@
           oninput="updateValue('k_ASU', 'k_ASUValue'), updateModel()">
         <div class="value-display">Fraction of in-state applicants selecting ASU.</div>
       </div>
+
     </section>
-  </div><!-- end basic-container -->
+  </div>
+  <!-- end basic-container -->
 
   <!-- Container for Sections 4 & 5 (Advanced: Program-Level Attractors & Admissions & Yield) -->
   <div class="advanced-container">
+
     <!-- 4. Program-Level Attractors -->
     <section class="slider-section">
       <h2>4. Program-Level Attractors – Non-Mainstream Majors</h2>
@@ -125,6 +153,7 @@
           oninput="updateValue('delta_interest', 'delta_interestValue'), updateModel()">
         <div class="value-display">Fraction of students open to future-oriented majors.</div>
       </div>
+
       <div class="slider-control">
         <label for="delta_awareness">
           Program Awareness (δ_awareness): <span id="delta_awarenessValue"></span>
@@ -133,6 +162,7 @@
           oninput="updateValue('delta_awareness', 'delta_awarenessValue'), updateModel()">
         <div class="value-display">Level of awareness about this program.</div>
       </div>
+
       <div class="slider-control">
         <label for="delta_ROI">
           Perceived ROI (δ_ROI, scale 1-10): <span id="delta_ROIValue"></span>
@@ -141,6 +171,7 @@
           oninput="updateValue('delta_ROI', 'delta_ROIValue'), updateModel()">
         <div class="value-display">Perception of ROI compared to other niche majors.</div>
       </div>
+
       <div class="slider-control">
         <label for="delta_mission">
           Mission Alignment (δ_mission, scale 1-10): <span id="delta_missionValue"></span>
@@ -149,6 +180,7 @@
           oninput="updateValue('delta_mission', 'delta_missionValue'), updateModel()">
         <div class="value-display">Alignment with foci like sustainability, responsible innovation, and future studies.</div>
       </div>
+
       <div class="slider-control">
         <label for="delta_curriculum">
           Curriculum Appeal (δ_curriculum, scale 1-10): <span id="delta_curriculumValue"></span>
@@ -191,6 +223,7 @@
         <div class="value-display">Approximately 85–90% admitted.</div>
       </div>
       
+      
       <div class="slider-control">
         <label for="phi_FA">
           Financial Aid Coverage (φ_FA): <span id="phi_FAValue"></span>
@@ -199,7 +232,7 @@
           oninput="updateValue('phi_FA', 'phi_FAValue'), updateModel()">
         <div class="value-display">Approx. 80–90% receive aid (currently not used in calculation).</div>
       </div>
-
+      
       
       <div class="slider-control">
         <label for="theta">
@@ -209,14 +242,16 @@
           oninput="updateValue('theta', 'thetaValue'), updateModel()">
         <div class="value-display">20–30% of admitted students enroll.</div>
       </div>
+
       <div class="slider-control">
         <label for="theta_program">
           Niche Program Yield (θ_program): <span id="theta_programValue"></span>
         </label>
-        <input type="range" id="theta_program" min="0.30" max="0.50" step="0.005" value="0.40"
+        <input type="range" id="theta_program" min="0.20" max="0.99" step="0.005" value="0.30"
           oninput="updateValue('theta_program', 'theta_programValue'), updateModel()">
-        <div class="value-display">Typically 30–50% for the niche BA.</div>
+        <div class="value-display">Est. 30–50%. This is an additional factor to θ.</div>
       </div>
+
       <div class="slider-control">
         <label for="y_visit">
           Visit Impact (y_visit): <span id="y_visitValue"></span>
@@ -225,6 +260,7 @@
           oninput="updateValue('y_visit', 'y_visitValue'), updateModel()">
         <div class="value-display">Multiplier from campus visits.</div>
       </div>
+
       <div class="slider-control">
         <label for="y_peer">
           Peer/Family Influence (y_peer): <span id="y_peerValue"></span>
@@ -234,7 +270,8 @@
         <div class="value-display">Multiplier from parental/peer influence.</div>
       </div>
     </section>
-  </div><!-- end advanced-container -->
+  </div>
+  <!-- end advanced-container -->
 
   <script src="script.js"></script>
 </body>
